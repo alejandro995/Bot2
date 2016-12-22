@@ -15,7 +15,7 @@ public class DiscordBot {
 	public DiscordBot(){
 		builder = new JDABuilder();
 		builder.setBotToken(SECRET_INFO.TOKEN);
-		builder.setAudioEnabled(false);
+		builder.setAudioEnabled(true);
 		builder.setBulkDeleteSplittingEnabled(false);
 		
 		
