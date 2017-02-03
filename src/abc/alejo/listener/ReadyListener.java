@@ -23,6 +23,7 @@ import net.dv8tion.jda.player.Playlist;
 import net.dv8tion.jda.player.source.AudioInfo;
 import net.dv8tion.jda.player.source.AudioSource;
 import net.dv8tion.jda.player.source.AudioTimestamp;
+import net.dv8tion.jda.player.source.RemoteSource;
 
 public class ReadyListener extends ListenerAdapter {
 	 public static final float DEFAULT_VOLUME = 0.35f;
@@ -261,9 +262,10 @@ public class ReadyListener extends ListenerAdapter {
 	                String url = message.substring("play ".length());
 	                Playlist playlist = Playlist.getPlaylist(url, event.getGuild().getId());
 	                List<AudioSource> sources = new LinkedList(playlist.getSources());
-//	                AudioSource source = new RemoteSource(url);
+	                AudioSource source = new RemoteSource(url, url);
+	                sources.add(source);
 //	                AudioSource source = new LocalSource(new File(url));
-//	                AudioInfo info = source.getInfo();   //Preload the audio info.
+	                AudioInfo info = source.getInfo();   //Preload the audio info.
 	                if (sources.size() > 1)
 	                {
 	                    event.getChannel().sendMessage("Found a playlist with **" + sources.size() + "** entries.\n" +
@@ -298,8 +300,8 @@ public class ReadyListener extends ListenerAdapter {
 	                }
 	                else
 	                {
-	                    AudioSource source = sources.get(0);
-	                    AudioInfo info = source.getInfo();
+	                    source = sources.get(0);
+	                    info = source.getInfo();
 	                    if (info.getError() == null)
 	                    {
 	                        player.getAudioQueue().add(source);
